@@ -1,0 +1,55 @@
+package contactdirectory;
+
+
+import contactdirectory.Contact;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
+
+public class ReadData {
+    public ReadData(){
+        
+    }
+    public DefaultListModel<Contact> getSavedList() throws IOException{
+        File myFile = new File("contacts.ser");
+        ObjectInputStream readData = null;
+        DefaultListModel<Contact> temp = null;
+        try{
+            FileInputStream streamIn = new FileInputStream(myFile);
+            readData = new ObjectInputStream(streamIn);
+            DefaultListModel<Contact> readObject = (DefaultListModel<Contact>) readData.readObject();
+            temp = readObject;
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(new JOptionPane(), "Couldn't find contacts. Make sure it is in the same folder as the program.", "Contacts "
+                + "Load Error", JOptionPane.ERROR_MESSAGE);
+            temp = new DefaultListModel<Contact>();
+        }
+        finally {
+            if(readData != null){
+                readData .close();
+    } 
+}
+        return temp;
+    }
+}
+/*
+ObjectInputStream objectinputstream = null;
+try {
+    FileInputStream streamIn = new FileInputStream(myFile);
+    objectinputstream = new ObjectInputStream(streamIn);
+    ArrayList<String> readCase = (ArrayList<String>) objectinputstream.readObject();
+    out=readCase;
+    System.out.println(out.get(1));
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    if(objectinputstream != null){
+        objectinputstream .close();
+    } 
+}
+*/
